@@ -21,4 +21,13 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $content = ob_get_clean();
         $this->assertContains('Goodbye', $content);
     }
+
+    public function testThrowsNotFoundException()
+    {
+        $this->expectExceptionMessage('Not Found');
+        $_SERVER['ORIG_PATH_INFO'] = '/not_available_url';
+        ob_start();
+        include '../web/front.php';
+        ob_get_clean();
+    }
 }
