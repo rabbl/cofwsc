@@ -13,7 +13,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Hello Fabien', $content);
     }
 
-    public function testGetBye()
+    public function testGoodbye()
     {
         $_SERVER['ORIG_PATH_INFO'] = '/bye';
         ob_start();
