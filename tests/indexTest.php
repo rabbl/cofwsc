@@ -5,7 +5,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 {
     public function testPostHello()
     {
-        $_SERVER['ORIG_PATH_INFO'] = '/hello';
+        $_SERVER['ORIG_PATH_INFO'] = '/hello/Fabien';
         $_GET['name'] = 'Fabien';
         ob_start();
         include '../web/front.php';
