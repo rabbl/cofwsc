@@ -30,4 +30,31 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         include '../web/front.php';
         ob_get_clean();
     }
+
+    public function testLeapYearRoute()
+    {
+        $_SERVER['ORIG_PATH_INFO'] = '/is_leap_year';
+        ob_start();
+        include '../web/front.php';
+        $content = ob_get_clean();
+        $this->assertContains('leap year', $content);
+    }
+
+    public function testLeapYearRouteWithLeapYear()
+    {
+        $_SERVER['ORIG_PATH_INFO'] = '/is_leap_year/2004';
+        ob_start();
+        include '../web/front.php';
+        $content = ob_get_clean();
+        $this->assertContains('Yep, this is leap year!', $content);
+    }
+
+    public function testLeapYearRouteWithNoLeapYear()
+    {
+        $_SERVER['ORIG_PATH_INFO'] = '/is_leap_year/2005';
+        ob_start();
+        include '../web/front.php';
+        $content = ob_get_clean();
+        $this->assertContains('Nope, is not a leap year.', $content);
+    }
 }
