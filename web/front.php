@@ -1,11 +1,12 @@
 <?php
 
 require_once __DIR__ .'/../vendor/autoload.php';
+require_once __DIR__ .'/../src/LeapYearController.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\HttpKernel;
+use Symfony\Component\Routing;
 
 if (!function_exists('render_template')){
     function render_template($request)
@@ -20,13 +21,18 @@ if (!function_exists('render_template')){
 $request = Request::createFromGlobals();
 $routes = include __DIR__.'/../src/app.php';
 
-$context = new RequestContext();
+$context = new Routing\RequestContext();
 $context->fromRequest($request);
-$matcher = new UrlMatcher($routes, $context);
+
+$matcher = new Routing\Matcher\UrlMatcher($routes, $context);
+$resolver = new HttpKernel\Controller\ControllerResolver();
 
 try {
     $request->attributes->add($matcher->match($request->getPathInfo()));
-    $response = call_user_func($request->attributes->get('_controller'), $request);
+    $controller = $resolver->getController($request);
+    $arguments = $resolver->getArguments($request, $controller);
+    $response = call_user_func_array($controller, $arguments);
+
 } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
     $response = new Response('Not Found', 404);
 } catch (Exception $e) {

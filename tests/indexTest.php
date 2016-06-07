@@ -1,6 +1,5 @@
 <?php
 
-
 class IndexTest extends \PHPUnit_Framework_TestCase
 {
     public function testPostHello()
@@ -46,7 +45,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         ob_start();
         include '../web/front.php';
         $content = ob_get_clean();
-        $this->assertContains('Yep, this is leap year!', $content);
+        $this->assertContains("Yep", $content);
     }
 
     public function testLeapYearRouteWithNoLeapYear()
@@ -55,6 +54,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         ob_start();
         include '../web/front.php';
         $content = ob_get_clean();
-        $this->assertContains('Nope, is not a leap year.', $content);
+        $this->assertContains('Nope', $content);
     }
 }
