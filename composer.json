@@ -4,5 +4,9 @@
         "phpunit/phpunit": "^5.3",
         "symfony/routing": "^3.1",
         "symfony/http-kernel": "^3.1"
+        },
+
+    "autoload": {
+        "psr-4": { "": "src/" }
     }
 }
